@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Añadimos el servicio para poder acceder a la Base de datos mediante la cadenaSQL
 builder.Services.AddDbContext<DbcrudBlazorContext>(opciones =>
 {
 	opciones.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL"));

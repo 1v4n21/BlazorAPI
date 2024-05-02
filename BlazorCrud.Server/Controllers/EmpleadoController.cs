@@ -73,6 +73,8 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
+		//Acepta peticiones get http yla ruta es api/controlador/Buscar/{id} para acceder
+		//Obtener un empleado en concreto
 		[HttpGet]
 		[Route("Buscar/{id}")]
 		public async Task<IActionResult> Buscar(int id)

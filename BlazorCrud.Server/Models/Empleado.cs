@@ -5,6 +5,8 @@ namespace BlazorCrud.Server.Models;
 
 public partial class Empleado
 {
+    //Clase Empleado en base a EntityFramework con la BD
+
     public int IdEmpleado { get; set; }
 
     public string NombreCompleto { get; set; } = null!;

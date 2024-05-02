@@ -8,6 +8,8 @@ namespace BlazorCrud.Share
 {
 	public class ResponseAPI<T>
 	{
+		//Atributos para la respuesta de nuestra API
+
 		public bool EsCorrecto { get; set; }
 		public T? Valor { get; set; }
         public string? Mensaje { get; set; }

@@ -9,6 +9,8 @@ namespace BlazorCrud.Share
 {
 	public class EmpleadoDTO
 	{
+		//Atributos de la clase empleado con errorMessage en caso de estar vacios o con valor 0
+
 		public int IdEmpleado { get; set; }
 
 		[Required(ErrorMessage = "El campo {0} es requerido.")]
