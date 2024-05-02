@@ -161,7 +161,7 @@ namespace BlazorCrud.Server.Controllers
 		[Route("Editar")]
 		public async Task<IActionResult> Editar(EmpleadoDTO empleado)
 		{
-			var responseAPI = new ResponseAPI<int>();
+			/**var responseAPI = new ResponseAPI<int>();
 
 			try
 			{
@@ -193,7 +193,7 @@ namespace BlazorCrud.Server.Controllers
 				responseAPI.Mensaje = ex.Message;
 			}
 
-			return Ok(responseAPI);
+			return Ok(responseAPI);**/
 		}
 	}
 }
