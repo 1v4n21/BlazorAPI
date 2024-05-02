@@ -19,7 +19,7 @@ namespace BlazorCrud.Server.Controllers
 			_dbContext = dbContext;
 		}
 
-		//Acepta peticiones get http y la ruta es /Lista para acceder
+		//Acepta peticiones get http y la ruta es api/controlador/Lista para acceder
 		//Obtener una lisa de todos los empleados
 		[HttpGet]
 		[Route("Lista")]
