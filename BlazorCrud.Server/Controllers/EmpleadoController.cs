@@ -73,29 +73,72 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
-		//Acepta peticiones get http yla ruta es api/controlador/Buscar/{id} para acceder
+		//Acepta peticiones get http y la ruta es api/controlador/Buscar/{id} para acceder
 		//Obtener un empleado en concreto
 		[HttpGet]
 		[Route("Buscar/{id}")]
 		public async Task<IActionResult> Buscar(int id)
 		{
-			var responseAPI = new ResponseAPI<List<DepartamentoDTO>>();
-			var listaDepartamentoDTO = new List<DepartamentoDTO>();
+			var responseAPI = new ResponseAPI<EmpleadoDTO>();
+			var empleadoDTO = new EmpleadoDTO();
+
+			try {
+				var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(x => x.IdEmpleado == id);
+				
+				if(dbEmpleado != null)
+				{
+					empleadoDTO.IdEmpleado = dbEmpleado.IdEmpleado;
+					empleadoDTO.NombreCompleto = dbEmpleado.NombreCompleto;
+					empleadoDTO.IdDepartamento = dbEmpleado.IdDepartamento;
+					empleadoDTO.Sueldo = dbEmpleado.Sueldo;
+					empleadoDTO.FechaContrato = dbEmpleado.FechaContrato;
+
+					responseAPI.EsCorrecto = true;
+					responseAPI.Valor = empleadoDTO;
+				}
+				else
+				{
+					responseAPI.EsCorrecto = false;
+					responseAPI.Mensaje = "No encontrado";
+				}
+			}
+			catch (Exception ex)
+			{
+				responseAPI.EsCorrecto = false;
+				responseAPI.Mensaje = ex.Message;
+			}
+
+			return Ok(responseAPI);
+		}
+
+		//Acepta peticiones post http y la ruta es api/controlador/Guardar
+		[HttpPost]
+		[Route("Guardar")]
+		public async Task<IActionResult> Buscar(int id)
+		{
+			var responseAPI = new ResponseAPI<EmpleadoDTO>();
+			var empleadoDTO = new EmpleadoDTO();
 
 			try
 			{
-				foreach (var item in await _dbContext.Departamentos.ToListAsync())
+				var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(x => x.IdEmpleado == id);
+
+				if (dbEmpleado != null)
 				{
-					listaDepartamentoDTO.Add(new DepartamentoDTO
-					{
-						IdDepartamento = item.IdDepartamento,
-						Nombre = item.Nombre,
-					});
+					empleadoDTO.IdEmpleado = dbEmpleado.IdEmpleado;
+					empleadoDTO.NombreCompleto = dbEmpleado.NombreCompleto;
+					empleadoDTO.IdDepartamento = dbEmpleado.IdDepartamento;
+					empleadoDTO.Sueldo = dbEmpleado.Sueldo;
+					empleadoDTO.FechaContrato = dbEmpleado.FechaContrato;
 
+					responseAPI.EsCorrecto = true;
+					responseAPI.Valor = empleadoDTO;
 				}
-
-				responseAPI.EsCorrecto = true;
-				responseAPI.Valor = listaDepartamentoDTO;
+				else
+				{
+					responseAPI.EsCorrecto = false;
+					responseAPI.Mensaje = "No encontrado";
+				}
 			}
 			catch (Exception ex)
 			{
