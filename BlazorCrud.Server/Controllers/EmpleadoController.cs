@@ -112,32 +112,35 @@ namespace BlazorCrud.Server.Controllers
 		}
 
 		//Acepta peticiones post http y la ruta es api/controlador/Guardar
+		//Guardar un empleado
 		[HttpPost]
 		[Route("Guardar")]
-		public async Task<IActionResult> Buscar(int id)
+		public async Task<IActionResult> Guardar(EmpleadoDTO empleado)
 		{
-			var responseAPI = new ResponseAPI<EmpleadoDTO>();
-			var empleadoDTO = new EmpleadoDTO();
+			var responseAPI = new ResponseAPI<int>();
 
 			try
 			{
-				var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(x => x.IdEmpleado == id);
-
-				if (dbEmpleado != null)
+				var dbEmpleado = new Empleado
 				{
-					empleadoDTO.IdEmpleado = dbEmpleado.IdEmpleado;
-					empleadoDTO.NombreCompleto = dbEmpleado.NombreCompleto;
-					empleadoDTO.IdDepartamento = dbEmpleado.IdDepartamento;
-					empleadoDTO.Sueldo = dbEmpleado.Sueldo;
-					empleadoDTO.FechaContrato = dbEmpleado.FechaContrato;
+					NombreCompleto = empleado.NombreCompleto,
+					IdDepartamento = empleado.IdDepartamento,
+					Sueldo = empleado.Sueldo,
+					FechaContrato = empleado.FechaContrato,
+				};
 
+				_dbContext.Empleados.Add(dbEmpleado);
+				await _dbContext.SaveChangesAsync();
+
+				if (dbEmpleado.IdEmpleado != 0)
+				{
 					responseAPI.EsCorrecto = true;
-					responseAPI.Valor = empleadoDTO;
+					responseAPI.Valor = dbEmpleado.IdEmpleado;
 				}
 				else
 				{
 					responseAPI.EsCorrecto = false;
-					responseAPI.Mensaje = "No encontrado";
+					responseAPI.Mensaje = "No guardado";
 				}
 			}
 			catch (Exception ex)
