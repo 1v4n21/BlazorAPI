@@ -155,7 +155,8 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
-
+		//Acepta peticiones post http y la ruta es api/controlador/Editar
+		//Editar un empleado
 		[HttpPost]
 		[Route("Editar")]
 		public async Task<IActionResult> Editar(EmpleadoDTO empleado)
