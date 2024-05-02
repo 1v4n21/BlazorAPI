@@ -19,6 +19,7 @@ namespace BlazorCrud.Server.Controllers
 			_dbContext = dbContext;
 		}
 
+
 		//Acepta peticiones get http y la ruta es api/controlador/Lista para acceder
 		//Obtener una lisa de todos los empleados
 		[HttpGet]
@@ -73,6 +74,7 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
+
 		//Acepta peticiones get http y la ruta es api/controlador/Buscar/{id} para acceder
 		//Obtener un empleado en concreto
 		[HttpGet]
@@ -111,11 +113,52 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
+
 		//Acepta peticiones post http y la ruta es api/controlador/Guardar
 		//Guardar un empleado
 		[HttpPost]
 		[Route("Guardar")]
 		public async Task<IActionResult> Guardar(EmpleadoDTO empleado)
+		{
+			var responseAPI = new ResponseAPI<int>();
+
+			try
+			{
+				var dbEmpleado = new Empleado
+				{
+					NombreCompleto = empleado.NombreCompleto,
+					IdDepartamento = empleado.IdDepartamento,
+					Sueldo = empleado.Sueldo,
+					FechaContrato = empleado.FechaContrato,
+				};
+
+				_dbContext.Empleados.Add(dbEmpleado);
+				await _dbContext.SaveChangesAsync();
+
+				if (dbEmpleado.IdEmpleado != 0)
+				{
+					responseAPI.EsCorrecto = true;
+					responseAPI.Valor = dbEmpleado.IdEmpleado;
+				}
+				else
+				{
+					responseAPI.EsCorrecto = false;
+					responseAPI.Mensaje = "No guardado";
+				}
+			}
+			catch (Exception ex)
+			{
+				responseAPI.EsCorrecto = false;
+				responseAPI.Mensaje = ex.Message;
+			}
+
+			return Ok(responseAPI);
+		}
+
+
+		[HttpPost]
+		[Route("Editar")]
+		public async Task<IActionResult> Editar(EmpleadoDTO empleado)
 		{
 			var responseAPI = new ResponseAPI<int>();
 
