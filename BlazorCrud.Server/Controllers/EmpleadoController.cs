@@ -194,5 +194,39 @@ namespace BlazorCrud.Server.Controllers
 
 			return Ok(responseAPI);
 		}
-	}
+
+		//Acepta peticiones delete http y la ruta es api/Empleado/Eliminar/{id}
+		//Eliminar un empleado
+        [HttpDelete]
+        [Route("Eliminar/{id}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var responseAPI = new ResponseAPI<int>();
+
+            try
+            {
+                var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(e => e.IdEmpleado == id);
+
+                if (dbEmpleado != null)
+                {
+                    _dbContext.Empleados.Remove(dbEmpleado);
+                    await _dbContext.SaveChangesAsync();
+
+                    responseAPI.EsCorrecto = true;
+                }
+                else
+                {
+                    responseAPI.EsCorrecto = false;
+                    responseAPI.Mensaje = "Empleado no encontrado";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseAPI.EsCorrecto = false;
+                responseAPI.Mensaje = ex.Message;
+            }
+
+            return Ok(responseAPI);
+        }
+    }
 }
