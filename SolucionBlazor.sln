@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCrud.Server", "BlazorCrud.Server\BlazorCrud.Server.csproj", "{C46B22A4-F210-4FD2-8D7E-10B13B7D0482}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCrud.Share", "BlazorCrud.Share\BlazorCrud.Share.csproj", "{7592C8CC-94C9-427B-8697-3DCF5E810DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCrud.Shared", "BlazorCrud.Share\BlazorCrud.Shared.csproj", "{7592C8CC-94C9-427B-8697-3DCF5E810DA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorCrud.Client", "BlazorCrud.Client\BlazorCrud.Client.csproj", "{D15D3021-5785-4A27-9497-8A422FBC16EA}"
 EndProject
