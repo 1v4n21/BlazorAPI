@@ -20,9 +20,9 @@ namespace BlazorCrud.Server.Controllers
 		}
 
 
-		//Acepta peticiones get http y la ruta es api/controlador/Lista para acceder
-		//Obtener una lisa de todos los empleados
-		[HttpGet]
+        //Acepta peticiones get http y la ruta es api/Empleado/Lista para acceder
+        //Obtener una lisa de todos los empleados
+        [HttpGet]
 		[Route("Lista")]
 		public async Task<IActionResult> Lista()
 		{
@@ -75,9 +75,9 @@ namespace BlazorCrud.Server.Controllers
 		}
 
 
-		//Acepta peticiones get http y la ruta es api/controlador/Buscar/{id} para acceder
-		//Obtener un empleado en concreto
-		[HttpGet]
+        //Acepta peticiones get http y la ruta es api/Empleado/Buscar/{id} para acceder
+        //Obtener un empleado en concreto
+        [HttpGet]
 		[Route("Buscar/{id}")]
 		public async Task<IActionResult> Buscar(int id)
 		{
@@ -114,9 +114,9 @@ namespace BlazorCrud.Server.Controllers
 		}
 
 
-		//Acepta peticiones post http y la ruta es api/controlador/Guardar
-		//Guardar un empleado
-		[HttpPost]
+        //Acepta peticiones post http y la ruta es api/Empleado/Guardar
+        //Guardar un empleado
+        [HttpPost]
 		[Route("Guardar")]
 		public async Task<IActionResult> Guardar(EmpleadoDTO empleado)
 		{
@@ -155,36 +155,35 @@ namespace BlazorCrud.Server.Controllers
 			return Ok(responseAPI);
 		}
 
-		//Acepta peticiones post http y la ruta es api/controlador/Editar
+		//Acepta peticiones put http y la ruta es api/Empleado/Editar/{id}
 		//Editar un empleado
-		[HttpPost]
-		[Route("Editar")]
-		public async Task<IActionResult> Editar(EmpleadoDTO empleado)
+		[HttpPut]
+		[Route("Editar/{id}")]
+		public async Task<IActionResult> Editar(EmpleadoDTO empleado, int id)
 		{
 			var responseAPI = new ResponseAPI<int>();
 
 			try
 			{
-				var dbEmpleado = new Empleado
-				{
-					NombreCompleto = empleado.NombreCompleto,
-					IdDepartamento = empleado.IdDepartamento,
-					Sueldo = empleado.Sueldo,
-					FechaContrato = empleado.FechaContrato,
-				};
+				var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(e => e.IdEmpleado == id);
 
-				_dbContext.Empleados.Add(dbEmpleado);
-				await _dbContext.SaveChangesAsync();
-
-				if (dbEmpleado.IdEmpleado != 0)
+				if (dbEmpleado != null)
 				{
+					dbEmpleado.NombreCompleto = empleado.NombreCompleto;
+					dbEmpleado.IdDepartamento = empleado.IdDepartamento;
+					dbEmpleado.Sueldo = empleado.Sueldo;
+					dbEmpleado.FechaContrato = empleado.FechaContrato;
+
+					_dbContext.Empleados.Update(dbEmpleado);
+					await _dbContext.SaveChangesAsync();
+
 					responseAPI.EsCorrecto = true;
 					responseAPI.Valor = dbEmpleado.IdEmpleado;
 				}
 				else
 				{
 					responseAPI.EsCorrecto = false;
-					responseAPI.Mensaje = "No guardado";
+					responseAPI.Mensaje = "Empleado no encontrado";
 				}
 			}
 			catch (Exception ex)
