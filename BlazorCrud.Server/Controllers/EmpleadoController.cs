@@ -81,35 +81,45 @@ namespace BlazorCrud.Server.Controllers
 		[Route("Buscar/{id}")]
 		public async Task<IActionResult> Buscar(int id)
 		{
+			//Respuesta de la API
 			var responseAPI = new ResponseAPI<EmpleadoDTO>();
+
+			//Empleado que buscamos
 			var empleadoDTO = new EmpleadoDTO();
 
 			try {
+				//Realizamos la consulta por la id introducida
 				var dbEmpleado = await _dbContext.Empleados.FirstOrDefaultAsync(x => x.IdEmpleado == id);
 				
+				//Comprobamos que existe el empleado con esa id
 				if(dbEmpleado != null)
 				{
+					//Obtenemos el empleado buscado por la id
 					empleadoDTO.IdEmpleado = dbEmpleado.IdEmpleado;
 					empleadoDTO.NombreCompleto = dbEmpleado.NombreCompleto;
 					empleadoDTO.IdDepartamento = dbEmpleado.IdDepartamento;
 					empleadoDTO.Sueldo = dbEmpleado.Sueldo;
 					empleadoDTO.FechaContrato = dbEmpleado.FechaContrato;
 
+					//Returnamos que es correcto y el empleado
 					responseAPI.EsCorrecto = true;
 					responseAPI.Valor = empleadoDTO;
 				}
 				else
 				{
+					//En caso de que no exista un usuario con esa id
 					responseAPI.EsCorrecto = false;
 					responseAPI.Mensaje = "No encontrado";
 				}
 			}
 			catch (Exception ex)
 			{
+				//En el caso de que returne una excepcion
 				responseAPI.EsCorrecto = false;
 				responseAPI.Mensaje = ex.Message;
 			}
 
+			//Returnamos la respuesta de la API y OK
 			return Ok(responseAPI);
 		}
 
@@ -120,10 +130,12 @@ namespace BlazorCrud.Server.Controllers
 		[Route("Guardar")]
 		public async Task<IActionResult> Guardar(EmpleadoDTO empleado)
 		{
+			//Respuesta de la API
 			var responseAPI = new ResponseAPI<int>();
 
 			try
 			{
+				//Creamos el nuevo empleado a guardar con sus atributos
 				var dbEmpleado = new Empleado
 				{
 					NombreCompleto = empleado.NombreCompleto,
@@ -132,26 +144,32 @@ namespace BlazorCrud.Server.Controllers
 					FechaContrato = empleado.FechaContrato,
 				};
 
+				//Añadimos el nuevo empleado a la BD y guardamos cambios
 				_dbContext.Empleados.Add(dbEmpleado);
 				await _dbContext.SaveChangesAsync();
 
+				//Comprobamos que se ha añadido correctamente el empleado
 				if (dbEmpleado.IdEmpleado != 0)
 				{
+					//Returnamos que ha salido correctamente y la id del empleado
 					responseAPI.EsCorrecto = true;
 					responseAPI.Valor = dbEmpleado.IdEmpleado;
 				}
 				else
 				{
+					//Returnamos que ha dado error y no se ha guardado
 					responseAPI.EsCorrecto = false;
 					responseAPI.Mensaje = "No guardado";
 				}
 			}
 			catch (Exception ex)
 			{
+				//Returnamos error en el caso de que se lance una excepcion
 				responseAPI.EsCorrecto = false;
 				responseAPI.Mensaje = ex.Message;
 			}
 
+			//Returnamos la respuesta de la API y OK
 			return Ok(responseAPI);
 		}
 

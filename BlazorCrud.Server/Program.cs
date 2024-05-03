@@ -18,6 +18,7 @@ builder.Services.AddDbContext<DbcrudBlazorContext>(opciones =>
 
 );
 
+//Buildeamos politica Cors a nuestra API
 builder.Services.AddCors(opciones =>
 {
 	opciones.AddPolicy("nuevaPolitica", app =>
@@ -37,6 +38,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+//Aplicamos esta politica a nuestra App
 app.UseCors("nuevaPolitica");
 
 app.UseAuthorization();
