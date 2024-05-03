@@ -12,29 +12,77 @@ namespace BlazorCrud.Client.Services
             _http = http;
         }
 
-        public Task<List<EmpleadoDTO>> Lista()
+        public async Task<List<EmpleadoDTO>> Lista()
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<ResponseAPI<List<EmpleadoDTO>>>("api/Empleado/Lista");
+
+            if (result!.EsCorrecto)
+            {
+                return result.Valor;
+            }
+            else
+            {
+                throw new Exception(result.Mensaje);
+            }
         }
 
-        public Task<EmpleadoDTO> Buscar(int id)
+        public async Task<EmpleadoDTO> Buscar(int id)
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<ResponseAPI<EmpleadoDTO>>($"api/Empleado/Buscar/{id}");
+
+            if (result!.EsCorrecto)
+            {
+                return result.Valor;
+            }
+            else
+            {
+                throw new Exception(result.Mensaje);
+            }
         }
 
-        public Task<int> Editar(EmpleadoDTO empleado)
+        public async Task<int> Guardar(EmpleadoDTO empleado)
         {
-            throw new NotImplementedException();
+            var result = await _http.PostAsJsonAsync($"api/Empleado/Guardar", empleado);
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<int>>();
+
+            if (response!.EsCorrecto)
+            {
+                return response.Valor;
+            }
+            else
+            {
+                throw new Exception(response.Mensaje);
+            }
         }
 
-        public Task<bool> Eliminar(int id)
+        public async Task<int> Editar(EmpleadoDTO empleado)
         {
-            throw new NotImplementedException();
+            var result = await _http.PutAsJsonAsync($"api/Empleado/Editar/{empleado.IdEmpleado}", empleado);
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<int>>();
+
+            if (response!.EsCorrecto)
+            {
+                return response.Valor;
+            }
+            else
+            {
+                throw new Exception(response.Mensaje);
+            }
         }
 
-        public Task<int> Guardar(EmpleadoDTO empleado)
+        public async Task<bool> Eliminar(int id)
         {
-            throw new NotImplementedException();
+            var result = await _http.DeleteAsync($"api/Empleado/Eliminar/{id}");
+            var response = await result.Content.ReadFromJsonAsync<ResponseAPI<int>>();
+
+            if (response!.EsCorrecto)
+            {
+                return response.EsCorrecto;
+            }
+            else
+            {
+                throw new Exception(response.Mensaje);
+            }
         }
     }
 }
