@@ -7,11 +7,13 @@ namespace BlazorCrrud.Client.Services
     {
         private readonly HttpClient _http;
 
+        //Constructor http para la ruta de la API
         public EmpleadoService(HttpClient http)
         {
             _http = http;
         }
 
+        //Metodo para obtener la lista de empleados llamando a la API
         public async Task<List<EmpleadoDTO>> Lista()
         {
             var result = await _http.GetFromJsonAsync<ResponseAPI<List<EmpleadoDTO>>>("api/Empleado/Lista");
@@ -26,6 +28,7 @@ namespace BlazorCrrud.Client.Services
             }
         }
 
+        //Metodo para obtener un empleado en concreto llamando a la API
         public async Task<EmpleadoDTO> Buscar(int id)
         {
             var result = await _http.GetFromJsonAsync<ResponseAPI<EmpleadoDTO>>($"api/Empleado/Buscar/{id}");
@@ -40,6 +43,7 @@ namespace BlazorCrrud.Client.Services
             }
         }
 
+        //Metodo para guardar un empleado llamando a la API
         public async Task<int> Guardar(EmpleadoDTO empleado)
         {
             var result = await _http.PostAsJsonAsync($"api/Empleado/Guardar", empleado);
@@ -55,6 +59,7 @@ namespace BlazorCrrud.Client.Services
             }
         }
 
+        //Metodo para editar un empleado llamando a la API
         public async Task<int> Editar(EmpleadoDTO empleado)
         {
             var result = await _http.PutAsJsonAsync($"api/Empleado/Editar/{empleado.IdEmpleado}", empleado);
@@ -70,6 +75,7 @@ namespace BlazorCrrud.Client.Services
             }
         }
 
+        //Metodo para eliminar un empleado llamando a la API
         public async Task<bool> Eliminar(int id)
         {
             var result = await _http.DeleteAsync($"api/Empleado/Eliminar/{id}");

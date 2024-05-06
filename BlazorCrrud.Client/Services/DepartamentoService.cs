@@ -8,11 +8,13 @@ namespace BlazorCrrud.Client.Services
 
         private readonly HttpClient _http;
 
+        //Constructor http para la ruta de la API
         public DepartamentoService(HttpClient http)
         {
             _http = http;
         }
 
+        //Método para obtener la lista de departamentos llamando a la API
         public async Task<List<DepartamentoDTO>> Lista()
         {
             var result = await _http.GetFromJsonAsync<ResponseAPI<List<DepartamentoDTO>>>("api/Departamento/Lista");
