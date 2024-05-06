@@ -1,16 +1,20 @@
 ﻿@page "/empleados"
 
+<!-- Importamos los diferentes programas -->
 @using BlazorCrrud.Client.Services
 @using BlazorCrud.Share;
 @using CurrieTechnologies.Razor.SweetAlert2;
 
+<!-- Injectamos los diferentes servicios -->
 @inject SweetAlertService Swal;
 @inject IEmpleadoService empleadoService;
 
 <h3>Empleados</h3>
 
+<!-- Boton para crear un nuevo empleado -->
 <a class="btn btn-success btn-sm mb-3" href="empleado">Nuevo Empleado</a>
 
+<!-- Tabla donde mostraremos todos los empleados -->
 <table class="table">
     <thead>
         <tr>
@@ -23,6 +27,7 @@
     </thead>
     <tbody>
 
+        <!-- Preloader mientras cargan los empleados -->
         @if(listaEmpleado == null)
         {
             <tr>
@@ -33,6 +38,7 @@
         }
         else
         {
+            <!-- Foreach para recorrer todos los empleados y mostrarlos  -->
             @foreach(var item in listaEmpleado)
             {
                 <tr>
@@ -40,6 +46,8 @@
                     <td>@item.Departamento!.Nombre</td>
                     <td>@item.Sueldo</td>
                     <td>@item.FechaContrato</td>
+
+                    <!-- Botones para actuar con los empleados -->
                     <td>
                         <a class="btn btn-primary btn-sm" href="empleado/@item.IdEmpleado">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -61,22 +69,24 @@
 
     List<EmpleadoDTO>? listaEmpleado = null;
 
-
+    //Cargamos los empleados  al inicializar la aplicacion
     protected override async Task OnInitializedAsync()
     {
         listaEmpleado = await empleadoService.Lista();
     }
 
+    //Metodo para eliminar un empleado
     private async Task Eliminar(int id)
     {
         var resultado = await Swal.FireAsync(new SweetAlertOptions
         {
             Title = "Eliminar Empleado",
             Text = "Deseas eliminar el empleado?",
-            Icon =SweetAlertIcon.Question,
+            Icon = SweetAlertIcon.Question,
             ShowCancelButton = true
         });
 
+        //Si lo eliminamos recargamos la tabla
         if (resultado.IsConfirmed)
         {
             var eliminado = await empleadoService.Eliminar(id);
