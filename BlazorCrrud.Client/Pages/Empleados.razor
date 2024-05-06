@@ -45,7 +45,7 @@
                     <td>@item.NombreCompleto</td>
                     <td>@item.Departamento!.Nombre</td>
                     <td>@item.Sueldo</td>
-                    <td>@item.FechaContrato</td>
+                    <td>@item.FechaContrato.ToString("dd/MM/yyyy")</td>
 
                     <!-- Botones para actuar con los empleados -->
                     <td>
@@ -65,7 +65,7 @@
 
 
 @code {
-    @*1h 07mn video API CRUD*@
+    @*1:26:21 video API CRUD*@
 
     List<EmpleadoDTO>? listaEmpleado = null;
 
