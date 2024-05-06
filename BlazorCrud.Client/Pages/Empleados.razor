@@ -27,9 +27,24 @@
         {
             <tr>
                 <td colspan="5" align="center">
-                    <img style="width:50px" />
+                    <img style="width:50px" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/6b449513765711.56277d303236b.gif" />
                 </td>
-            </tr>    
+            </tr>
+        }
+        else
+        {
+            @foreach(var item in listaEmpleado)
+            {
+                <tr>
+                    <td>@item.NombreCompleto</td>
+                    <td>@item.Departamento!.Nombre</td>
+                    <td>@item.Sueldo</td>
+                    <td>@item.FechaContrato</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="empleado/"></a>
+                    </td>
+                </tr>
+            }
         }
 
     </tbody>
