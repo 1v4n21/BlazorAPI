@@ -1,6 +1,6 @@
 ﻿using BlazorCrud.Share;
 
-namespace BlazorCrud.Client.Services
+namespace BlazorCrrud.Client.Services
 {
     public interface IEmpleadoService
     {

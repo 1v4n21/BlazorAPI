@@ -1,7 +1,7 @@
 ﻿using BlazorCrud.Share;
 using System.Net.Http.Json;
 
-namespace BlazorCrud.Client.Services
+namespace BlazorCrrud.Client.Services
 {
     public class EmpleadoService : IEmpleadoService
     {

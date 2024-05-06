@@ -2,7 +2,7 @@ using BlazorCrrud.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using CurrieTechnologies.Razor.SweetAlert2;
-using BlazorCrud.Client.Services;
+using BlazorCrrud.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
