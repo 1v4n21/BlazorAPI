@@ -1,0 +1,18 @@
+﻿@page "/empleado"
+@page "/empleado/{idEmpleadoEditar:int}"
+
+<!-- Importamos los diferentes programas -->
+@using BlazorCrrud.Client.Services
+@using BlazorCrud.Share;
+@using CurrieTechnologies.Razor.SweetAlert2;
+
+<!-- Injectamos los diferentes servicios -->
+@inject SweetAlertService Swal;
+@inject IDepartamentoService departamentoService;
+@inject IEmpleadoService empleadoService;
+
+<h3>Empleado</h3>
+
+@code {
+
+}
